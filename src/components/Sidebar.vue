@@ -23,7 +23,9 @@
 
 <script>
 import { Drawer, DrawerContent } from "@progress/kendo-vue-layout";
-import { Button } from "@progress/kendo-vue-buttons";
+import { useLocalStorage } from "@vueuse/core";
+
+const expanded = useLocalStorage("sidebar-expanded", true);
 
 export default {
   name: "App",
@@ -39,7 +41,7 @@ export default {
       items: [
         {
           text: "Boards",
-          icon: "k-i-grid-layout",
+          icon: "k-i-set-column-position",
           selected: true,
           data: {
             path: "/",
@@ -63,13 +65,11 @@ export default {
           text: "Collapse",
           icon: "k-i-chevron-left",
           data: {
-            handleClick() {
-              this.expanded = !this.expanded;
-            },
+            action: () => (expanded.value = !expanded.value),
           },
         },
       ],
-      expanded: false,
+      expanded: expanded,
       selectedId: 0,
       position: "start",
       mode: "push",
